@@ -1,5 +1,6 @@
-# Ignore the node_modules directory
+# Ignore the node_modules and dist directory
 node_modules/
+dist/
 
 # Ignore Logs
 logs
