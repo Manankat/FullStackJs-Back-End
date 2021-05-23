@@ -10,6 +10,14 @@ async function bootstrap() {
     .setDescription('Full Stack JS API, is a api running to support a Chinese Checker website, using a PostgreSQL database.')
     .setVersion('0.1')
     .addTag('Full Stack JS')
+    .addBearerAuth({
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+      name: 'JWT',
+      description: 'Enter JWT token',
+      in: 'header',
+    },'JWT-auth')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
