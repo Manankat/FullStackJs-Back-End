@@ -11,11 +11,11 @@ import { GamesModule } from './games/games.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: '51.210.8.156',
       port: 5432,
       username: 'postgres',
-      password: '*fullstackjs$',
-      database: 'postgres',
+      password: 'azertyuiop',
+      database: 'game',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),

@@ -1,46 +1,44 @@
 import {
-    MessageBody,
-	OnGatewayConnection,
-	OnGatewayDisconnect,
-	OnGatewayInit,
-    SubscribeMessage,
-    WebSocketGateway,
-    WebSocketServer
-  } from '@nestjs/websockets';
-import { Injectable } from '@nestjs/common';
-import { Server, Socket } from 'socket.io';
-import { GamesService } from '../games/games.service';
+  SubscribeMessage,
+  WebSocketGateway,
+  OnGatewayInit,
+  WebSocketServer,
+  OnGatewayConnection,
+  OnGatewayDisconnect,
+} from '@nestjs/websockets';
+import { Logger } from '@nestjs/common';
+import { Server } from 'socket.io';
 
-@Injectable()
+
 @WebSocketGateway()
-export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
-    @WebSocketServer() server: Server;
+export class EventsGateway implements OnGatewayInit {
 
-	constructor(
-		private gameService: GamesService
-	) {}
+  @WebSocketServer() server: Server;
+  private logger: Logger = new Logger('EventsGateway');
 
-	handleConnection() {
-		console.log("Test")
-	}
+  @SubscribeMessage('moveRequest')
+  MoveRequest(client, data): void {
+    this.logger.log("it workds fucker"); 
+    this.server.emit("MOVE");
+  }
 
-	handleDisconnect() {
-		console.log("Test0")
-	}
-
-    @SubscribeMessage('create-game')
-    async createGame(@MessageBody() data: string): Promise<string> {
-		return data;
-    }
-
-    @SubscribeMessage('ready')
-    async handleReady(@MessageBody() data: string): Promise<string> {
-		console.log(data);
-		return data;
-    }
-
-    @SubscribeMessage('move')
-    async identity(@MessageBody() data: string): Promise<string> {
-        return data;
-    }
+  afterInit(server: Server) {
+    this.logger.log('Init');
+  }
 }
+
+// @WebSocketGateway()
+// export class EventsGateway {
+//   @WebSocketServer()
+//   server: Server;
+
+//   @SubscribeMessage('events')
+//   findAll(@MessageBody() data: any): Observable<WsResponse<number>> {
+//     return from([1, 2, 3]).pipe(map(item => ({ event: 'events', data: item })));
+//   }
+
+//   @SubscribeMessage('identity')
+//   async identity(@MessageBody() data: number): Promise<number> {
+//     return data;
+//   }
+// }
