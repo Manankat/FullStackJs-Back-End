@@ -17,4 +17,10 @@ export class GetUserSuccess {
     
     @ApiProperty()
     email: string;
+
+    @ApiProperty()
+    win: string;
+
+    @ApiProperty()
+    loose: string;
 }

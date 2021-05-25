@@ -22,7 +22,6 @@ export class EventsGateway implements OnGatewayInit {
 
 	@SubscribeMessage('create-game')
 	async createRoom(@MessageBody() data: GameDTO, @ConnectedSocket() socket: Socket): Promise<unknown> {
-		console.log(data);
 		const createdGame = await this.gamesService.create(data)
 
 		socket.join(createdGame.uuid);
@@ -33,7 +32,6 @@ export class EventsGateway implements OnGatewayInit {
 
 	@SubscribeMessage('join-game')
 	async joinRoom(@MessageBody() data: JoinGameDTO, @ConnectedSocket() socket: Socket): Promise<unknown> {
-		console.log(data);
 		const theGame = await this.gamesService.findOne(data.uuid);
 
 		console.log("test")
@@ -51,7 +49,6 @@ export class EventsGateway implements OnGatewayInit {
 
 	@SubscribeMessage('leave-game')
 	async leaveRoom(@MessageBody() data: JoinGameDTO, @ConnectedSocket() socket: Socket): Promise<unknown> {
-		console.log(data);
 		const theGame = await this.gamesService.findOne(data.uuid);
 
 		if (!theGame)
@@ -65,7 +62,6 @@ export class EventsGateway implements OnGatewayInit {
 
     @SubscribeMessage('ready')
     async ready(@MessageBody() data: ReadyDTO, @ConnectedSocket() socket: Socket): Promise<unknown> {
-		console.log(data);
 		socket.to(data.uuid).emit('ready', {data: data});
 
 		return { event: 'ready', data: data };
@@ -74,7 +70,6 @@ export class EventsGateway implements OnGatewayInit {
     @SubscribeMessage('player-move')
     async playerMove(@MessageBody() data: MoveDTO, @ConnectedSocket() socket: Socket): Promise<unknown> {
 		
-		console.log(data);
 		// Game Logic to implement HERE
 
 		const gameUpdated = await this.gamesService.updateGameState(data.uuid , data.gameState)

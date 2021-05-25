@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn} from 'typeorm';
 
 @Entity()
 export class Users {
@@ -18,4 +18,12 @@ export class Users {
     @Column()
     @ApiProperty()
     password: string;
+
+    @Column({nullable: false, default: 0})
+    @ApiProperty()
+    win: number;
+
+    @Column({nullable: false, default: 0})
+    @ApiProperty()
+    loose: number;
 }
